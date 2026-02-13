@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Gift for You ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: radial-gradient(circle, #fffafb 0%, #ffe4e9 100%);
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* The Magical Gift Button */
+        #gift-container {
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+        }
+
+        .gift-box {
+            font-size: 120px;
+            filter: drop-shadow(0 15px 20px rgba(213, 63, 140, 0.2));
+            animation: gentleHeartbeat 1.5s infinite;
+        }
+
+        @keyframes gentleHeartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Countdown */
+        #countdown {
+            display: none;
+            font-family: 'Dancing Script', cursive;
+            font-size: 100px;
+            color: #d53f8c;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* The Main Surprise Content */
+        #main-content {
+            display: none;
+            width: 95%;
+            max-width: 500px;
+            animation: slideUp 1.5s ease-out;
+            padding: 20px;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #b83280;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.05);
+        }
+
+        /* Video Styling - Perfectly adjusted for her video */
+        .video-container {
+            position: relative;
+            border: 12px solid #fff;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            background: #000;
+            line-height: 0;
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .wish-text {
+            margin-top: 25px;
+            color: #702459;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Soft Heart Animation */
+        .heart {
+            position: absolute;
+            color: #f687b3;
+            font-size: 25px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="gift-container" onclick="openGift()">
+        <div class="gift-box">🎁</div>
+        <p style="color: #b83280; font-style: italic; margin-top: 15px;">A little something for you...</p>
+    </div>
+
+    <div id="countdown">3</div>
+
+    <div id="main-content">
+        <h1>Happy Birthday! 🌸</h1>
+        <div class="video-container">
+            <video id="birthdayVideo" controls poster="thumb.jpg">
+                <source src="https://drive.google.com/file/d/1cDI4GDEgzP2yn_BGBXYb5L8v-lTf0WQ-/view?usp=sharing.mp4" type="video/mp4">
+                Your browser doesn't support this video.
+            </video>
+        </div>
+        <div class="wish-text">
+            May your day be as bright, cute, and amazing as you are. ✨<br>
+            Keep smiling, always!
+        </div>
+    </div>
+
+    <script>
+        function openGift() {
+            document.getElementById('gift-container').style.display = 'none';
+            const countEl = document.getElementById('countdown');
+            countEl.style.display = 'block';
+            
+            let count = 3;
+            const timer = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    countEl.innerText = count;
+                } else {
+                    clearInterval(timer);
+                    revealSurprise();
+                }
+            }, 1000);
+        }
+
+        function revealSurprise() {
+            document.getElementById('countdown').style.display = 'none';
+            const content = document.getElementById('main-content');
+            content.style.display = 'block';
+            
+            const video = document.getElementById('birthdayVideo');
+            video.play();
+
+            // Create soft heart rain
+            setInterval(createHeart, 400);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = ['❤️', '💖', '✨', '🌸'][Math.floor(Math.random() * 4)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '110vh';
+            
+            const duration = Math.random() * 3 + 4;
+            heart.style.transition = `all ${duration}s linear`;
+            
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.style.transform = `translateY(-120vh) rotate(${Math.random() * 360}deg)`;
+                heart.style.opacity = '0';
+            }, 50);
+
+            setTimeout(() => heart.remove(), duration * 1000);
+        }
+    </script>
+</body>
+</html>
